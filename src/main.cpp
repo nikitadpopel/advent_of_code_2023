@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "days\Day1.h"
+#include "days\Day2.h"
 
 int main(int argc,char* argv[])
 {
@@ -13,6 +14,11 @@ int main(int argc,char* argv[])
 	if(inputarg == "day1")
 	{
 		Day1 day = Day1();
+		day.Solve();
+	}
+	if(inputarg == "day2")
+	{
+		Day2 day = Day2();
 		day.Solve();
 	}
 	else
