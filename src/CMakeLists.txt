@@ -6,6 +6,8 @@ add_library(src STATIC
     days/Day1.h
     days/Day2.cpp
     days/Day2.h
+    days/Day3.cpp
+    days/Day3.h
     helpers/Reader.cpp
     helpers/Reader.h
 )
@@ -19,6 +21,8 @@ add_executable (App
     days/Day1.h
     days/Day2.cpp
     days/Day2.h
+    days/Day3.cpp
+    days/Day3.h
     helpers/Reader.cpp
     helpers/Reader.h
 )
