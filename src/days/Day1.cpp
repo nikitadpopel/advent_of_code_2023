@@ -8,7 +8,7 @@
 
 Day1::Day1()
 {
-	m_vecInput = ReadInput("C:\\Users\\mpopel\\Documents\\github\\advent_of_code_2023\\src\\inputs\\day1.input");
+	m_vecInput = ReadInput("inputs/day1.input");
 }
 
 int Day1::Part1()

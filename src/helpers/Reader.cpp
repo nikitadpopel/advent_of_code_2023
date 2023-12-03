@@ -10,7 +10,6 @@ std::vector<std::string> ReadInput(std::string inputString)
     std::string line;
     std::ifstream targetFile;
     targetFile.open(inputString);
-    std::cout << inputString << std::endl;
     if(targetFile.is_open())
     {
         while(std::getline(targetFile,line))
