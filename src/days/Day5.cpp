@@ -20,6 +20,21 @@ enum readstate
 	loc = 7
 };
 
+
+struct range {
+	double start;
+	double end;
+};
+
+bool CompareBySourceStart(const Day5::mapping& a, const Day5::mapping& b)
+{
+	return a.sourcestart < b.sourcestart;
+}
+bool CompareByStart(const range& a, const range& b)
+{
+	return a.start < b.start;
+}
+
 Day5::Day5()
 {
 	m_vecInput = ReadInput("../../inputs/day5.input");
@@ -118,6 +133,14 @@ Day5::Day5()
 			}
 		}
 	}
+
+	std::sort(m_soilmaps.begin(), m_soilmaps.end(), CompareBySourceStart);
+	std::sort(m_fertmaps.begin(), m_fertmaps.end(), CompareBySourceStart);
+	std::sort(m_watermaps.begin(), m_watermaps.end(), CompareBySourceStart);
+	std::sort(m_lightmaps.begin(), m_lightmaps.end(), CompareBySourceStart);
+	std::sort(m_tempmaps.begin(), m_tempmaps.end(), CompareBySourceStart);
+	std::sort(m_humidmaps.begin(), m_humidmaps.end(), CompareBySourceStart);
+	std::sort(m_locmaps.begin(), m_locmaps.end(), CompareBySourceStart);
 }
 
 
@@ -200,15 +223,65 @@ double Day5::Part1()
 			mymin = seed;
 		}
 	}
-	return 0;
+	return mymin;
+}
+
+std::vector<range> ComputeRanges(std::vector<range> oldranges, std::vector<Day5::mapping> mappings)
+{
+	std::vector<range> newranges;
+	std::sort(oldranges.begin(), oldranges.end(), CompareByStart);
+
+	for (auto& currrange : oldranges)
+	{
+		range existrange = currrange;
+
+		for (auto& soilmap : mappings)
+		{
+			if (existrange.start >= soilmap.sourcestart && existrange.start <= soilmap.sourceend)
+			{
+				if (existrange.end <= soilmap.sourceend)
+				{
+					double diff = soilmap.deststart - soilmap.sourcestart;
+					newranges.push_back({ existrange.start + diff, existrange.end + diff });
+					existrange.start = -1;
+					existrange.end = -1;
+					break;
+				}
+				if (existrange.end > soilmap.sourceend)
+				{
+					double diff = soilmap.deststart - soilmap.sourcestart;
+					newranges.push_back({ existrange.start + diff, soilmap.sourceend + diff });
+					existrange.start = soilmap.sourceend + 1;
+				}
+			}
+			if (existrange.start < soilmap.sourcestart && existrange.end >= soilmap.sourcestart && existrange.end >= soilmap.sourceend)
+
+			{
+				newranges.push_back({ existrange.start, soilmap.sourcestart - 1 });
+				double diff = soilmap.deststart - soilmap.sourcestart;
+				newranges.push_back({ soilmap.sourcestart + diff, existrange.end + diff });
+				existrange.start = -1;
+				existrange.end = -1;
+			}
+			if (existrange.start < soilmap.sourcestart && existrange.end > soilmap.sourceend)
+			{
+
+				newranges.push_back({ existrange.start, soilmap.sourcestart - 1 });
+				double diff = soilmap.deststart - soilmap.sourcestart;
+				newranges.push_back({ soilmap.sourcestart + diff, existrange.end + diff });
+				existrange.start = existrange.end + 1;
+			}
+		}
+		if (existrange.start != -1 || existrange.end != -1)
+		{
+			newranges.push_back({ existrange.start, existrange.end });
+		}
+	}
+	return newranges;
 }
 
 double Day5::Part2()
 {
-	struct range {
-		double start;
-		double end;
-	};
 	bool readingstart = true;
 	range currrange;
 	double currstart = 0;
@@ -229,13 +302,24 @@ double Day5::Part2()
 			readingstart = true;
 		}
 	}
+
+	ranges = ComputeRanges(ranges, m_soilmaps);
+	ranges = ComputeRanges(ranges, m_fertmaps);
+	ranges = ComputeRanges(ranges, m_watermaps);
+	ranges = ComputeRanges(ranges, m_lightmaps);
+	ranges = ComputeRanges(ranges, m_tempmaps);
+	ranges = ComputeRanges(ranges, m_humidmaps);
+	ranges = ComputeRanges(ranges, m_locmaps);
 	
-	return 0;
+
+	std::sort(ranges.begin(), ranges.end(), CompareByStart);
+
+	return ranges[0].start;
 }
 
 bool Day5::Solve()
 {
-	//std::cout << Part1() <<std::endl;
+	std::cout << Part1() <<std::endl;
 	std::cout << Part2() <<std::endl;
 
 	return true;
