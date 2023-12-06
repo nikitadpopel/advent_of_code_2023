@@ -8,13 +8,6 @@
 #include "Day5.h"
 #include "../helpers/Reader.h"
 
-
-Day5::Day5()
-{
-	m_vecInput = ReadInput("../../inputs/day5.input");
-	
-}
-
 enum readstate
 {
 	seed = 0,
@@ -27,11 +20,12 @@ enum readstate
 	loc = 7
 };
 
-int Day5::Part1()
+Day5::Day5()
 {
+	m_vecInput = ReadInput("../../inputs/day5.input");
 
 	std::vector<std::string>::iterator iter;
-	int sum = 0;
+	float sum = 0;
 	readstate currstate = readstate::seed;
 	for (iter = m_vecInput.begin(); iter < m_vecInput.end(); iter++)
 	{
@@ -45,12 +39,12 @@ int Day5::Part1()
 				{
 					if (currstr.find(" ") != std::string::npos)
 					{
-						m_seeds.push_back(stoi(currstr.substr(0, currstr.find(" "))));
+						m_seeds.push_back(stof(currstr.substr(0, currstr.find(" "))));
 						currstr = currstr.substr(currstr.find(" ") + 1, -1);
 					}
 					else
 					{
-						m_seeds.push_back(stoi(currstr));
+						m_seeds.push_back(stof(currstr));
 						currstr = "";
 					}
 				}
@@ -89,11 +83,12 @@ int Day5::Part1()
 			else
 			{
 				mapping currmapreading;
-				currmapreading.deststart = stoi(currstr.substr(0, currstr.find(" ")));
+				currmapreading.deststart = stof(currstr.substr(0, currstr.find(" ")));
 				currstr = currstr.substr(currstr.find(" ") + 1, -1);
-				currmapreading.sourcestart = stoi(currstr.substr(0, currstr.find(" ")));
+				currmapreading.sourcestart = stof(currstr.substr(0, currstr.find(" ")));
 				currstr = currstr.substr(currstr.find(" ") + 1, -1);
-				currmapreading.rangelen = stoi(currstr);
+				currmapreading.rangelen = stof(currstr);
+				currmapreading.sourceend = currmapreading.sourcestart + currmapreading.rangelen - 1;
 				switch (currstate)
 				{
 				case readstate::soil:
@@ -123,10 +118,92 @@ int Day5::Part1()
 			}
 		}
 	}
+}
+
+
+float Day5::Part1()
+{
+	std::vector<float> seedsfinalnums;
+	for (auto& seed : m_seeds)
+	{
+		float curr = seed;
+		for (auto& soilmap : m_soilmaps)
+		{
+			if (curr >= soilmap.sourcestart && curr <= soilmap.sourceend)
+			{
+				float diff = soilmap.deststart - soilmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& fertmap : m_fertmaps)
+		{
+			if (curr >= fertmap.sourcestart && curr <= fertmap.sourceend)
+			{
+				float diff = fertmap.deststart - fertmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& watermap : m_watermaps)
+		{
+			if (curr >= watermap.sourcestart && curr <= watermap.sourceend)
+			{
+				float diff = watermap.deststart - watermap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& lightmap : m_lightmaps)
+		{
+			if (curr >= lightmap.sourcestart && curr <= lightmap.sourceend)
+			{
+				float diff = lightmap.deststart - lightmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& tempmap : m_tempmaps)
+		{
+			if (curr >= tempmap.sourcestart && curr <= tempmap.sourceend)
+			{
+				float diff = tempmap.deststart - tempmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& humidmap : m_humidmaps)
+		{
+			if (curr >= humidmap.sourcestart && curr <= humidmap.sourceend)
+			{
+				float diff = humidmap.deststart - humidmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		for (auto& locmap : m_locmaps)
+		{
+			if (curr >= locmap.sourcestart && curr <= locmap.sourceend)
+			{
+				float diff = locmap.deststart - locmap.sourcestart;
+				curr = curr + diff;
+				break;
+			}
+		}
+		seedsfinalnums.push_back(curr);
+	}
+	float mymin = seedsfinalnums[0];
+	for (auto& seed : seedsfinalnums)
+	{
+		if (seed < mymin)
+		{
+			mymin = seed;
+		}
+	}
 	return 0;
 }
 
-int Day5::Part2()
+float Day5::Part2()
 {
 	return 0;
 }

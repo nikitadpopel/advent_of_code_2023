@@ -8,18 +8,19 @@ class Day5
 
 
         struct mapping {
-            int deststart;
-            int sourcestart;
-            int rangelen;
+            float deststart;
+            float sourcestart;
+            float rangelen;
+            float sourceend;
         };
 
         Day5();
-        int Part1();
-        int Part2();
+        float Part1();
+        float Part2();
         bool Solve();
     private:
         std::vector<std::string> m_vecInput;
-        std::vector<int> m_seeds;
+        std::vector<float> m_seeds;
         std::vector<mapping> m_soilmaps;
         std::vector<mapping> m_fertmaps;
         std::vector<mapping> m_watermaps;
