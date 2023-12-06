@@ -25,7 +25,7 @@ Day5::Day5()
 	m_vecInput = ReadInput("../../inputs/day5.input");
 
 	std::vector<std::string>::iterator iter;
-	float sum = 0;
+	double sum = 0;
 	readstate currstate = readstate::seed;
 	for (iter = m_vecInput.begin(); iter < m_vecInput.end(); iter++)
 	{
@@ -39,12 +39,12 @@ Day5::Day5()
 				{
 					if (currstr.find(" ") != std::string::npos)
 					{
-						m_seeds.push_back(stof(currstr.substr(0, currstr.find(" "))));
+						m_seeds.push_back(stod(currstr.substr(0, currstr.find(" "))));
 						currstr = currstr.substr(currstr.find(" ") + 1, -1);
 					}
 					else
 					{
-						m_seeds.push_back(stof(currstr));
+						m_seeds.push_back(stod(currstr));
 						currstr = "";
 					}
 				}
@@ -83,11 +83,11 @@ Day5::Day5()
 			else
 			{
 				mapping currmapreading;
-				currmapreading.deststart = stof(currstr.substr(0, currstr.find(" ")));
+				currmapreading.deststart = stod(currstr.substr(0, currstr.find(" ")));
 				currstr = currstr.substr(currstr.find(" ") + 1, -1);
-				currmapreading.sourcestart = stof(currstr.substr(0, currstr.find(" ")));
+				currmapreading.sourcestart = stod(currstr.substr(0, currstr.find(" ")));
 				currstr = currstr.substr(currstr.find(" ") + 1, -1);
-				currmapreading.rangelen = stof(currstr);
+				currmapreading.rangelen = stod(currstr);
 				currmapreading.sourceend = currmapreading.sourcestart + currmapreading.rangelen - 1;
 				switch (currstate)
 				{
@@ -121,17 +121,17 @@ Day5::Day5()
 }
 
 
-float Day5::Part1()
+double Day5::Part1()
 {
-	std::vector<float> seedsfinalnums;
+	std::vector<double> seedsfinalnums;
 	for (auto& seed : m_seeds)
 	{
-		float curr = seed;
+		double curr = seed;
 		for (auto& soilmap : m_soilmaps)
 		{
 			if (curr >= soilmap.sourcestart && curr <= soilmap.sourceend)
 			{
-				float diff = soilmap.deststart - soilmap.sourcestart;
+				double diff = soilmap.deststart - soilmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -140,7 +140,7 @@ float Day5::Part1()
 		{
 			if (curr >= fertmap.sourcestart && curr <= fertmap.sourceend)
 			{
-				float diff = fertmap.deststart - fertmap.sourcestart;
+				double diff = fertmap.deststart - fertmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -149,7 +149,7 @@ float Day5::Part1()
 		{
 			if (curr >= watermap.sourcestart && curr <= watermap.sourceend)
 			{
-				float diff = watermap.deststart - watermap.sourcestart;
+				double diff = watermap.deststart - watermap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -158,7 +158,7 @@ float Day5::Part1()
 		{
 			if (curr >= lightmap.sourcestart && curr <= lightmap.sourceend)
 			{
-				float diff = lightmap.deststart - lightmap.sourcestart;
+				double diff = lightmap.deststart - lightmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -167,7 +167,7 @@ float Day5::Part1()
 		{
 			if (curr >= tempmap.sourcestart && curr <= tempmap.sourceend)
 			{
-				float diff = tempmap.deststart - tempmap.sourcestart;
+				double diff = tempmap.deststart - tempmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -176,7 +176,7 @@ float Day5::Part1()
 		{
 			if (curr >= humidmap.sourcestart && curr <= humidmap.sourceend)
 			{
-				float diff = humidmap.deststart - humidmap.sourcestart;
+				double diff = humidmap.deststart - humidmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
@@ -185,14 +185,14 @@ float Day5::Part1()
 		{
 			if (curr >= locmap.sourcestart && curr <= locmap.sourceend)
 			{
-				float diff = locmap.deststart - locmap.sourcestart;
+				double diff = locmap.deststart - locmap.sourcestart;
 				curr = curr + diff;
 				break;
 			}
 		}
 		seedsfinalnums.push_back(curr);
 	}
-	float mymin = seedsfinalnums[0];
+	double mymin = seedsfinalnums[0];
 	for (auto& seed : seedsfinalnums)
 	{
 		if (seed < mymin)
@@ -203,14 +203,39 @@ float Day5::Part1()
 	return 0;
 }
 
-float Day5::Part2()
+double Day5::Part2()
 {
+	struct range {
+		double start;
+		double end;
+	};
+	bool readingstart = true;
+	range currrange;
+	double currstart = 0;
+	std::vector<range> ranges;
+	for (auto& seed : m_seeds)
+	{
+		if (readingstart)
+		{
+			currstart = seed;
+			readingstart = false;
+		}
+		else
+		{
+			range currrange;
+			currrange.start = currstart;
+			currrange.end = currstart + seed - 1;
+			ranges.push_back(currrange);
+			readingstart = true;
+		}
+	}
+	
 	return 0;
 }
 
 bool Day5::Solve()
 {
-	std::cout << Part1() <<std::endl;
+	//std::cout << Part1() <<std::endl;
 	std::cout << Part2() <<std::endl;
 
 	return true;
