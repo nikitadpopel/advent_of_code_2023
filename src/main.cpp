@@ -5,6 +5,8 @@
 #include "days\Day3.h"
 #include "days\Day4.h"
 #include "days\Day5.h"
+#include "days\Day6.h"
+#include "days\Day7.h"
 
 int main(int argc,char* argv[])
 {
@@ -37,6 +39,16 @@ int main(int argc,char* argv[])
 	if(inputarg == "day5")
 	{
 		Day5 day = Day5();
+		day.Solve();
+	}
+	if(inputarg == "day6")
+	{
+		Day6 day = Day6();
+		day.Solve();
+	}
+	if(inputarg == "day7")
+	{
+		Day7 day = Day7();
 		day.Solve();
 	}
 	else
