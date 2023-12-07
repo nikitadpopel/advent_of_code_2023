@@ -11,4 +11,8 @@ class Day6
         bool Solve();
     private:
         std::vector<std::string> m_vecInput;
+        std::vector<int> m_times;
+        std::vector<int> m_dists;
+        double m_bigtime;
+        double m_bigdist;
 };
