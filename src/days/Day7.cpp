@@ -138,7 +138,7 @@ double Day7::Part2()
 		}
 		else if (std::count(cardsearch.begin(), cardsearch.end(), 4) == 4)
 		{
-			if (std::count(hand.begin(), hand.end(), 1) == 1)
+			if (std::count(hand.begin(), hand.end(), 1) >= 1)
 			{
 				m_handtypes.push_back(fiveofakind);
 			}
@@ -149,7 +149,7 @@ double Day7::Part2()
 		}
 		else if (std::count(cardsearch.begin(), cardsearch.end(), 3) == 3 && std::count(cardsearch.begin(), cardsearch.end(), 2) == 2)
 		{
-			if (std::count(hand.begin(), hand.end(), 1) > 2)
+			if (std::count(hand.begin(), hand.end(), 1) >= 2)
 			{
 				m_handtypes.push_back(fiveofakind);
 			}
@@ -160,12 +160,7 @@ double Day7::Part2()
 		}
 		else if (std::count(cardsearch.begin(), cardsearch.end(), 3) == 3)
 		{
-
-			if (std::count(hand.begin(), hand.end(), 1) == 2)
-			{
-				m_handtypes.push_back(fiveofakind);
-			}
-			else if (std::count(hand.begin(), hand.end(), 1) == 1)
+			if (std::count(hand.begin(), hand.end(), 1) == 1 || std::count(hand.begin(), hand.end(), 1) == 3)
 			{
 				m_handtypes.push_back(fourofakind);
 			}
@@ -178,7 +173,7 @@ double Day7::Part2()
 		{
 			if (std::count(hand.begin(), hand.end(), 1) == 1)
 			{
-				m_handtypes.push_back(threeofakind);
+				m_handtypes.push_back(fullhouse);
 			}
 			else if (std::count(hand.begin(), hand.end(), 1) == 2)
 			{
@@ -192,7 +187,7 @@ double Day7::Part2()
 		}
 		else if (std::count(cardsearch.begin(), cardsearch.end(), 2) == 2)
 		{
-			if (std::count(hand.begin(), hand.end(), 1) == 1)
+			if (std::count(hand.begin(), hand.end(), 1) >= 1)
 			{
 				m_handtypes.push_back(threeofakind);
 			}
@@ -203,7 +198,14 @@ double Day7::Part2()
 		}
 		else
 		{
-			m_handtypes.push_back(highcard);
+			if (std::count(hand.begin(), hand.end(), 1) == 1)
+			{
+				m_handtypes.push_back(onepair);
+			}
+			else
+			{
+				m_handtypes.push_back(highcard);
+			}
 		}
 	}
 	for (int i = 0; i < m_hands.size(); i++)
