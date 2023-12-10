@@ -224,7 +224,7 @@ double Day7::Part2()
 
 bool Day7::Solve()
 {
-	//std::cout << Part1() <<std::endl;
+	std::cout << Part1() <<std::endl;
 	std::cout << Part2() <<std::endl;
 
 	return true;
