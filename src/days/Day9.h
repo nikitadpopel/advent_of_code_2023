@@ -13,4 +13,5 @@ class Day9
         bool Solve();
     private:
         std::vector<std::string> m_vecInput;
+        std::vector<std::vector<int>> m_histories;
 };
