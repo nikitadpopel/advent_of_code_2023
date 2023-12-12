@@ -129,7 +129,36 @@ double Day10::Part1()
 		starts.push_back({ m_start.row, m_start.col + 1 });
 		prevmovement.push_back(right);
 	}
+
+	if (prevmovement[0] == up && prevmovement[1] == down)
+	{
+		m_grid[m_start.row][m_start.col] = '|';
+	}
+	if (prevmovement[0] == up && prevmovement[1] == left)
+	{
+		m_grid[m_start.row][m_start.col] = 'J';
+	}
+	if (prevmovement[0] == up && prevmovement[1] == right)
+	{
+		m_grid[m_start.row][m_start.col] = 'L';
+	}
+	if (prevmovement[0] == down && prevmovement[1] == left)
+	{
+		m_grid[m_start.row][m_start.col] = '7';
+	}
+	if (prevmovement[0] == down && prevmovement[1] == right)
+	{
+		m_grid[m_start.row][m_start.col] = 'F';
+	}
+	if (prevmovement[0] == left && prevmovement[1] == right)
+	{
+		m_grid[m_start.row][m_start.col] = '-';
+	}
+
 	int steps = 1;
+	loopspots.push_back(m_start);
+	loopspots.push_back(starts[0]);
+	loopspots.push_back(starts[1]);
 	while (starts[0].row != starts[1].row || starts[0].col != starts[1].col)
 	{
 		for (int i = 0; i < starts.size(); i++)
@@ -154,15 +183,94 @@ double Day10::Part1()
 				starts[i] = { starts[i].row, starts[i].col + 1 };
 				prevmovement[i] = right;
 			}
+
+			loopspots.push_back(starts[i]);
 		}
 		steps++;
 	}
-	return 0;
+	return steps;
 }
 
 double Day10::Part2()
 {
-	return 0;
+	for (int y = 0; y < m_grid.size(); y++)
+	{
+		for (int x = 0; x < m_grid[y].size(); x++)
+		{
+			bool notfound = true;
+			for (auto& spot : loopspots)
+			{
+				if (spot.row == y && spot.col == x)
+				{
+					notfound = false;
+				}
+			}
+			if (notfound)
+			{
+				int intercount = 0;
+				std::string intersect = "";
+				for (int i = x - 1; i > -1; i--)
+				{
+					if (leftsidesearch.find(m_grid[y][i]) != std::string::npos)
+					{
+						bool found = false;
+						for (auto& search : loopspots)
+						{
+							if (search.row == y && search.col == i)
+							{
+								found = true;
+							}
+						}
+						if (found)
+						{
+							intersect += m_grid[y][i];
+						}
+					}
+				}
+				char currjunc = ' ';
+				for (auto& inter : intersect)
+				{
+					if (inter == '|')
+					{
+						intercount++;
+					}
+					if (inter == 'J')
+					{
+						currjunc = 'J';
+					}
+					if (inter == '7')
+					{
+						currjunc = '7';
+					}
+					if (inter == 'L' && currjunc == 'J')
+					{
+						intercount+=2;
+					}
+
+					if (inter == 'L' && currjunc == '7')
+					{
+						intercount++;
+					}
+
+					if (inter == 'F' && currjunc == '7')
+					{
+						intercount += 2;
+					}
+
+					if (inter == 'F' && currjunc == 'J')
+					{
+						intercount++;
+					}
+				}
+				if (intercount % 2 == 1)
+				{
+					enclosed.push_back({y, x});
+				}
+			}
+		}
+	}
+
+	return enclosed.size();
 }
 
 bool Day10::Solve()

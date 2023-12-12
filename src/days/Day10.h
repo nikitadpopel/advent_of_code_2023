@@ -38,5 +38,8 @@ class Day10
         std::string rightface = "-J7";
         std::string downface = "|LJ";
         std::string leftface = "-LF";
+        std::vector<coord> loopspots;
 
+        std::string leftsidesearch = "|LJ7F";
+        std::vector<coord> enclosed;
 };
