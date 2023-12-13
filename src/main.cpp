@@ -10,6 +10,10 @@
 #include "days\Day8.h"
 #include "days\Day9.h"
 #include "days\Day10.h"
+#include "days\Day11.h"
+#include "days\Day12.h"
+#include "days\Day13.h"
+#include "days\Day14.h"
 
 int main(int argc,char* argv[])
 {
@@ -67,6 +71,26 @@ int main(int argc,char* argv[])
 	if(inputarg == "day10")
 	{
 		Day10 day = Day10();
+		day.Solve();
+	}
+	if(inputarg == "day11")
+	{
+		Day11 day = Day11();
+		day.Solve();
+	}
+	if(inputarg == "day12")
+	{
+		Day12 day = Day12();
+		day.Solve();
+	}
+	if(inputarg == "day13")
+	{
+		Day13 day = Day13();
+		day.Solve();
+	}
+	if(inputarg == "day14")
+	{
+		Day14 day = Day14();
 		day.Solve();
 	}
 	else
